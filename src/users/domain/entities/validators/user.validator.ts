@@ -15,12 +15,13 @@ export class UserRoles {
   @IsNotEmpty()
   name: string
 
+  @MaxLength(255)
   @IsString()
   @IsEmail()
   @IsNotEmpty()
   email: string
 
-  @MaxLength(255)
+  @MaxLength(100)
   @IsString()
   @IsNotEmpty()
   password: string
