@@ -28,4 +28,15 @@ describe('ClassValidatorFields unit tests', () => {
       field: ['field must be a string'],
     })
   })
+
+  it('Should validate without errors', () => {
+    const spyValidateSync = jest.spyOn(classValidator, 'validateSync')
+    spyValidateSync.mockReturnValue([])
+    const sut = new StubValidatorFields()
+
+    expect(sut.validate({ field: 'any_value' })).toBeTruthy()
+    expect(spyValidateSync).toHaveBeenCalled()
+    expect(sut.validatedData).toStrictEqual({ field: 'any_value' })
+    expect(sut.errors).toBeNull()
+  })
 })
