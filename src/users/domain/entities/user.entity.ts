@@ -36,4 +36,19 @@ export class UserEntity {
   get updatedAt(): Date {
     return this.props.updatedAt ?? new Date()
   }
+
+  set name(value: string) {
+    this.props.name = value
+    this.props.updatedAt = new Date()
+  }
+
+  set email(value: string) {
+    this.props.email = value
+    this.props.updatedAt = new Date()
+  }
+
+  set password(value: string) {
+    this.props.password = value
+    this.props.updatedAt = new Date()
+  }
 }
