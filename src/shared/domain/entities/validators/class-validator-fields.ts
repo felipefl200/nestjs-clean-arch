@@ -7,7 +7,7 @@ import {
 export abstract class ClassValidatorFields<
   PropsValidated extends object,
 > implements ValidatorFieldsInterface<PropsValidated> {
-  errors: FieldsErrors = {}
+  errors: FieldsErrors | null = null
   validatedData: PropsValidated | null = null
 
   validate(data: PropsValidated): boolean {
@@ -28,6 +28,7 @@ export abstract class ClassValidatorFields<
     }
 
     this.validatedData = data
+    this.errors = null
     return true
   }
 }
