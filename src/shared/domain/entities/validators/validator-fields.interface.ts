@@ -1,9 +1,7 @@
-export type FieldsErrors = {
-  [field: string]: string[]
-}
+export type FieldsErrors = Record<string, string[]>
 
-export interface ValidatorFieldsInterface<PropsValidated> {
+export interface ValidatorFieldsInterface<PropsValidated extends object> {
   errors: FieldsErrors
-  validatedData: PropsValidated
-  validate(props: any): void
+  validatedData: PropsValidated | null
+  validate(data: PropsValidated): boolean
 }
