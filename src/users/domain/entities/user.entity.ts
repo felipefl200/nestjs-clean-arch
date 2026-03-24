@@ -1,7 +1,6 @@
 import { Entity } from '@/shared/domain/entities/entity'
 
 export type UserProps = {
-  id: string
   name: string
   email: string
   password: string
@@ -12,10 +11,6 @@ export type UserProps = {
 export class UserEntity extends Entity<UserProps> {
   constructor(props: UserProps, id?: string) {
     super(props, id)
-  }
-
-  get id(): string {
-    return this.props.id
   }
 
   get name(): string {
@@ -38,18 +33,22 @@ export class UserEntity extends Entity<UserProps> {
     return this.props.updatedAt ?? new Date()
   }
 
-  set name(value: string) {
+  private set name(value: string) {
     this.props.name = value
     this.props.updatedAt = new Date()
   }
 
-  set email(value: string) {
+  private set email(value: string) {
     this.props.email = value
     this.props.updatedAt = new Date()
   }
 
-  set password(value: string) {
+  private set password(value: string) {
     this.props.password = value
     this.props.updatedAt = new Date()
+  }
+
+  update(props: Partial<UserProps>) {
+    Object.assign(this.props, props, { updatedAt: new Date() })
   }
 }
