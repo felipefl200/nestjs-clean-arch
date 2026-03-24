@@ -5,6 +5,7 @@ import { EnvConfigService } from './env-config.service'
 
 @Module({
   providers: [EnvConfigService],
+  imports: [ConfigModule],
 })
 export class EnvConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
