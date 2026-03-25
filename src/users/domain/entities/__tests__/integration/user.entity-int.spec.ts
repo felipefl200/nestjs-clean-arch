@@ -70,4 +70,20 @@ describe('UserEntity Integration Tests', () => {
     }
     expect(() => new UserEntity(props)).toThrow(EntityValidationError)
   })
+
+  it('should throw an error when an invalid createdAt is provided', () => {
+    let props: UserProps = {
+      ...UserDataBuilder({}),
+      createdAt: 2026 as any,
+    }
+    expect(() => new UserEntity(props)).toThrow(EntityValidationError)
+  })
+
+  it('should throw an error when an invalid updatedAt is provided', () => {
+    let props: UserProps = {
+      ...UserDataBuilder({}),
+      updatedAt: 2026 as any,
+    }
+    expect(() => new UserEntity(props)).toThrow(EntityValidationError)
+  })
 })
