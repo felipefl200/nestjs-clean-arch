@@ -93,4 +93,16 @@ describe('UserEntity Integration Tests', () => {
     expect(user.props).toEqual(props)
     expect.assertions(1)
   })
+
+  describe('Update Method', () => {
+    it('should update a valid user', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      user.update({ name: 'new name', password: 'new password' })
+      expect(user.props.name).toBe('new name')
+      expect(user.props.password).toBe('new password')
+      expect(user.props.updatedAt).toBeInstanceOf(Date)
+      expect.assertions(3)
+    })
+  })
 })
