@@ -2,6 +2,7 @@ import { UserEntity, UserProps } from '../../user.entity'
 import { UserDataBuilder } from '../../testing/helpers/user-data-builder'
 
 describe('UserEntity unit tests', () => {
+  UserEntity.validate = jest.fn()
   let props: UserProps
   let sut: UserEntity
   beforeEach(() => {
@@ -10,6 +11,7 @@ describe('UserEntity unit tests', () => {
   })
 
   it('Constructor Method', () => {
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut).toBeInstanceOf(UserEntity)
     expect(sut.id).toBeDefined()
     expect(sut.name).toBe(props.name)
@@ -27,6 +29,7 @@ describe('UserEntity unit tests', () => {
 
   it('Setter Method of Name', () => {
     sut['name'] = 'John Doe'
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.name).toBe('John Doe')
   })
 
@@ -38,6 +41,7 @@ describe('UserEntity unit tests', () => {
 
   it('Setter Method of Email', () => {
     sut['email'] = 'new@email.com'
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.email).toBe('new@email.com')
   })
 
@@ -49,6 +53,7 @@ describe('UserEntity unit tests', () => {
 
   it('Setter Method of Password', () => {
     sut['password'] = 'abc123'
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.password).toBe('abc123')
   })
 
@@ -72,7 +77,7 @@ describe('UserEntity unit tests', () => {
       email: newEmail,
       password: newPassword,
     })
-
+    expect(UserEntity.validate).toHaveBeenCalled()
     expect(sut.name).toBe(newName)
     expect(sut.email).toBe(newEmail)
     expect(sut.password).toBe(newPassword)
