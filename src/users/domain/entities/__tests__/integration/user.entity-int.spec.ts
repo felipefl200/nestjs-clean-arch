@@ -98,11 +98,75 @@ describe('UserEntity Integration Tests', () => {
     it('should update a valid user', () => {
       const props = UserDataBuilder({})
       const user = new UserEntity(props)
-      user.update({ name: 'new name', password: 'new password' })
+      user.update({ name: 'new name' })
       expect(user.props.name).toBe('new name')
+
+      user.update({ password: 'new password' })
       expect(user.props.password).toBe('new password')
+
+      user.update({ email: 'new.email@test.com' })
+      expect(user.props.email).toBe('new.email@test.com')
+
       expect(user.props.updatedAt).toBeInstanceOf(Date)
-      expect.assertions(3)
+      expect.assertions(4)
+    })
+
+    it('should throw an error when an invalid name is provided', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      expect(() => user.update({ name: 'a'.repeat(256) })).toThrow(
+        EntityValidationError,
+      )
+
+      expect(() => user.update({ name: '' })).toThrow(EntityValidationError)
+
+      expect(() => user.update({ name: 123123123 as any })).toThrow(
+        EntityValidationError,
+      )
+    })
+
+    it('should throw an error when an invalid email is provided', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      expect(() => user.update({ email: 'a'.repeat(256) })).toThrow(
+        EntityValidationError,
+      )
+
+      expect(() => user.update({ email: '' })).toThrow(EntityValidationError)
+
+      expect(() => user.update({ email: 123123123 as any })).toThrow(
+        EntityValidationError,
+      )
+    })
+
+    it('should throw an error when an invalid password is provided', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      expect(() => user.update({ password: 'a'.repeat(256) })).toThrow(
+        EntityValidationError,
+      )
+
+      expect(() => user.update({ password: '' })).toThrow(EntityValidationError)
+
+      expect(() => user.update({ password: 12345 as any })).toThrow(
+        EntityValidationError,
+      ) // min 6 password length
+    })
+
+    it('should throw an error when an invalid createdAt is provided', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      expect(() => user.update({ createdAt: 2026 as any })).toThrow(
+        EntityValidationError,
+      )
+    })
+
+    it('should throw an error when an invalid updatedAt is provided', () => {
+      const props = UserDataBuilder({})
+      const user = new UserEntity(props)
+      expect(() => user.update({ updatedAt: 2026 as any })).toThrow(
+        EntityValidationError,
+      )
     })
   })
 })
