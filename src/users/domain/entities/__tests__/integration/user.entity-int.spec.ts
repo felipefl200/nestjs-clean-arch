@@ -50,4 +50,24 @@ describe('UserEntity Integration Tests', () => {
     }
     expect(() => new UserEntity(props)).toThrow(EntityValidationError)
   })
+
+  it('should throw an error when an invalid password is provided', () => {
+    let props: UserProps = {
+      ...UserDataBuilder({}),
+      password: null as any,
+    }
+    expect(() => new UserEntity(props)).toThrow(EntityValidationError)
+
+    props = {
+      ...UserDataBuilder({}),
+      password: '',
+    }
+    expect(() => new UserEntity(props)).toThrow(EntityValidationError)
+
+    props = {
+      ...UserDataBuilder({}),
+      password: 'a'.repeat(101),
+    }
+    expect(() => new UserEntity(props)).toThrow(EntityValidationError)
+  })
 })
