@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  IsString,
-  MaxLength,
-} from 'class-validator'
+import { IsNotEmpty, IsPositive, IsString, MaxLength } from 'class-validator'
 import { ClassValidatorFields } from '../../class-validator-fields'
 
 class StubRules {
