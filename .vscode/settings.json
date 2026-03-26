@@ -1,7 +1,0 @@
-{
-  "jestrunner.jestCommand": "node_modules/.bin/jest",
-  "jestrunner.configPath": {
-    "**/*.e2e-spec.ts": "./test/jest-e2e.json",
-    "**/*.spec.ts": "./jest.config.js"
-  }
-}
