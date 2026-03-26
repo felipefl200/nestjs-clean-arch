@@ -47,10 +47,21 @@ describe('InMemoryRepository', () => {
     const foundEntities = await sut.findAll()
     expect(foundEntities).toHaveLength(1)
     expect(foundEntities[0]).toBe(entity)
+    expect([entity]).toStrictEqual(foundEntities)
+  })
+
+  it('should throw error when update not found entity', async () => {
+    const updatedEntity = new StubEntity(
+      { name: 'Jane Doe', price: 200 },
+      'invalid-id',
+    )
+    await expect(sut.update(updatedEntity)).rejects.toThrow(
+      new NotFoundError('Entity not found'),
+    )
   })
 
   it('should update an entity', async () => {
-    const entity = new StubEntity({ name: 'John Doe', price: 100 })
+    const entity = new StubEntity({ name: 'John Doe', price: 120 })
     await sut.insert(entity)
     const updatedEntity = new StubEntity(
       { name: 'Jane Doe', price: 200 },
@@ -58,6 +69,13 @@ describe('InMemoryRepository', () => {
     )
     await sut.update(updatedEntity)
     expect(sut.items[0]).toBe(updatedEntity)
+    expect(updatedEntity.toJSON()).toStrictEqual(sut.items[0].toJSON())
+  })
+
+  it('should throw error when delete not found entity', async () => {
+    await expect(sut.delete('invalid-id')).rejects.toThrow(
+      new NotFoundError('Entity not found'),
+    )
   })
 
   it('should delete an entity', async () => {
