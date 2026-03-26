@@ -17,7 +17,7 @@ export function UserDataBuilder(props: Props): UserProps {
   return {
     name: props.name ?? `${firstName} ${lastName}`,
     email: props.email ?? email,
-    password: props.password ?? faker.internet.password(),
+    password: props.password ?? faker.internet.password({ length: 8 }),
     createdAt: props.createdAt ?? new Date(),
     updatedAt: props.updatedAt ?? new Date(),
   }

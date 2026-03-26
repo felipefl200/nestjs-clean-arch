@@ -2,7 +2,7 @@ import { UserEntity, UserProps } from '../../user.entity'
 import { UserDataBuilder } from '../../testing/helpers/user-data-builder'
 
 describe('UserEntity unit tests', () => {
-  UserEntity.validate = jest.fn()
+  UserEntity.validate = vi.fn()
   let props: UserProps
   let sut: UserEntity
   beforeEach(() => {
