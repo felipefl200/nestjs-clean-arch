@@ -21,7 +21,7 @@ export abstract class InMemoryRepository<
 
   async update(entity: E): Promise<void> {
     await this._get(entity.id)
-    const index = this.entities.findIndex(entity => entity.id === entity.id)
+    const index = this.entities.findIndex(e => e.id === entity.id)
     this.entities[index] = entity
   }
 
