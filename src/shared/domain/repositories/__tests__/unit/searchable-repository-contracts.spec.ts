@@ -1,4 +1,7 @@
-import { SearchParams } from '../../searchable-repository-contracts'
+import {
+  SearchParams,
+  SearchResult,
+} from '../../searchable-repository-contracts'
 
 describe('Searchable Repository Contracts Unit Test', () => {
   describe('SearchParams', () => {
@@ -109,6 +112,52 @@ describe('Searchable Repository Contracts Unit Test', () => {
       it(`should set filter ${param.filter} as ${param.expected}`, () => {
         const sut = new SearchParams({ filter: param.filter as any })
         expect(sut.filter).toBe(param.expected)
+      })
+    })
+  })
+
+  describe('SearchResult Repository unit tests', () => {
+    it('constructor props', () => {
+      let sut = new SearchResult({
+        items: ['test1', 'test2', 'test3', 'test4'] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1', 'test2', 'test3', 'test4'],
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        lastPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test',
+      })
+
+      sut = new SearchResult({
+        items: ['test1'] as any,
+        total: 4,
+        currentPage: 1,
+        perPage: 1,
+        sort: 'name',
+        sortDir: 'desc',
+        filter: 'test-2',
+      })
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1'],
+        total: 4,
+        currentPage: 1,
+        perPage: 1,
+        lastPage: 4,
+        sort: 'name',
+        sortDir: 'desc',
+        filter: 'test-2',
       })
     })
   })
