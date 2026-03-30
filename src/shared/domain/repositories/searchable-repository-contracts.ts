@@ -77,7 +77,7 @@ export class SearchParams {
     return this._sortDir
   }
 
-  private set sortDir(value: string | null) {
+  private set sortDir(value: SortDirection | null) {
     if (!this.sort) {
       this._sortDir = null
       return

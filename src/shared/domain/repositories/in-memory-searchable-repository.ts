@@ -5,14 +5,37 @@ import {
   SearchParams,
   SearchResult,
   SearchableRepositoryInterface,
+  SortDirection,
 } from './searchable-repository-contracts'
 
 export abstract class InMemorySearchableRepository<E extends Entity<unknown>>
   extends InMemoryRepository<E>
   implements SearchableRepositoryInterface<E, any, any>
 {
+  abstract sortableFields: string[]
+
   async search(props: SearchParams): Promise<SearchResult<E>> {
-    throw new Error('Method not implemented.')
+    const itemsFiltered = await this.applyFilter(this.entities, props.filter)
+    const itemsSorted = await this.applySort(
+      itemsFiltered,
+      props.sort,
+      props.sortDir,
+    )
+    const itemsPaginated = await this.applyPaginate(
+      itemsSorted,
+      props.page,
+      props.perPage,
+    )
+
+    return new SearchResult({
+      items: itemsPaginated,
+      total: itemsFiltered.length,
+      currentPage: props.page,
+      perPage: props.perPage,
+      sort: props.sort,
+      sortDir: props.sortDir,
+      filter: props.filter,
+    })
   }
 
   protected abstract applyFilter(
@@ -23,9 +46,21 @@ export abstract class InMemorySearchableRepository<E extends Entity<unknown>>
   protected async applySort(
     items: E[],
     sort: string | null,
-    sortDir: string | null,
+    sortDir: SortDirection | null,
   ): Promise<E[]> {
-    return items
+    if (!sort || !this.sortableFields.includes(sort)) {
+      return items
+    }
+
+    return [...items].sort((a, b) => {
+      if (a[sort] < b[sort]) {
+        return sortDir === 'asc' ? -1 : 1
+      }
+      if (a[sort] > b[sort]) {
+        return sortDir === 'asc' ? 1 : -1
+      }
+      return 0
+    })
   }
 
   protected async applyPaginate(
