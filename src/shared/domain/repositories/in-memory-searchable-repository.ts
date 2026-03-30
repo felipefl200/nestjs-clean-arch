@@ -68,6 +68,8 @@ export abstract class InMemorySearchableRepository<E extends Entity<unknown>>
     page: SearchParams['page'],
     perPage: SearchParams['perPage'],
   ): Promise<E[]> {
-    return items
+    const start = (page - 1) * perPage
+    const end = start + perPage
+    return items.slice(start, end)
   }
 }
